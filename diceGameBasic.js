@@ -40,12 +40,12 @@ function rollAllDice() {
 }
 
 
-function createFibonacci(number) {
+function createFibonacci(number, length) {
   let fibonacciArray = [];
   let firstNumber = number;
   let secondNumber = number;
   fibonacciArray.push(firstNumber, secondNumber);
-  for (let i = 3; i <= 10; i++) {
+  for (let i = 3; i <= length; i++) {
   let thirdNumber = secondNumber + firstNumber;
    fibonacciArray.push(thirdNumber);
    firstNumber = secondNumber;
@@ -58,7 +58,7 @@ function createFibonacci(number) {
 function scoreArray(array) {
   let fibonacciArray = [];
   for (let i = 0; i < array.length; i ++) {
-    fibonacciArray.push(createFibonacci(array[i]));
+    fibonacciArray.push(createFibonacci(array[i], 10));
   }
   return fibonacciArray;
 }
@@ -98,20 +98,30 @@ function scoreLog(array, player) {
   }
 }
 
+function randomFib(score) {
+  let array = createFibonacci(rollDice(6), 5);
+  let userMustGuess = array.pop();
+  let userGuess = getInput("What is the next number in this fibonacci sequence: " + array +"?" );
+  userGuess = parseInt(userGuess);
+  if (userGuess != userMustGuess) {
+    score = 0
+  }
+  return score;
+
+}
 
 function runGame() {
-  let userInput = getInput("Welcome to FiboYahtzee!!! First one to get to 100,000 points wins. Each die you roll of ten dice is the starting number in a fibonacci sequence. The sum of all 10 sequences is added up to equal your score for the round. Type 'yes' to start playing against the computer.");
+  let userInput = getInput("Welcome to FiboYahtzee!!! First one to get to 100,000 points wins. Each die you roll of ten dice is the starting number in a fibonacci sequence. The sum of all 10 sequences is added up to equal your score for the round. In order to gain your points, you must guess the next number in a random fibonacci sequence. Type 'yes' to start playing against the computer.");
   let playerScore = [];
   let computerScore = [];
   if (userInput === "yes" || userInput.toLowerCase === "yes") {
     while(((playerScore.reduce(add, 0)) < 100000) && ((computerScore.reduce(add, 0)) < 100000)) {
-      let playerRoll = oneRoll();
+      let playerRoll = randomFib(oneRoll());
       playerScore.push(playerRoll);
       alert("Your score for this round is: " + playerRoll);
       let computerRoll = oneRoll();
       computerScore.push(computerRoll);
       alert("The computer scored: " + computerRoll);
-      let rollInput = getInput("type anything to roll again");
     }
   }
   scoreLog(playerScore, "Your ");
