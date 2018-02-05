@@ -111,6 +111,7 @@ function runGame() {
       let computerRoll = oneRoll();
       computerScore.push(computerRoll);
       alert("The computer scored: " + computerRoll);
+      let rollInput = getInput("type anything to roll again");
     }
   }
   scoreLog(playerScore, "Your ");
